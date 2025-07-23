@@ -1,0 +1,4 @@
+This directory contains two sub-folders that organize code based on different functionalities. This structure enables:
+1. Easier code maintenance
+2. Better modularity
+3. Clear separation of concerns

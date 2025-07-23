@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANIT-ATRGS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <header class="bg-white shadow-md">
+        <nav class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo and Institute Name -->
+                <div class="flex items-center space-x-4">
+                    <img src="https://www.manit.ac.in/sites/default/files/2020-04/MANIT%20Logo_0.png" alt="MANIT Logo" class="h-16">
+                    <div class="hidden md:block">
+                        <h1 class="text-xl font-bold text-[#002147]">Maulana Azad National Institute of Technology</h1>
+                        <p class="text-sm text-gray-600">Bhopal, Madhya Pradesh</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="text-gray-700 hover:text-[#002147]">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-[#002147]">About</a>
+                    <a href="#" class="text-gray-700 hover:text-[#002147]">Academics</a>
+                    <a href="#" class="text-gray-700 hover:text-[#002147]">Research</a>
+                    <a href="#" class="text-gray-700 hover:text-[#002147]">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-toggle" class="md:hidden text-gray-600 hover:text-gray-900">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white fixed top-0 left-0 w-64 h-full transform -translate-x-full transition-transform duration-200 ease-in-out z-50 shadow-lg">
+            <div class="p-4">
+                <button id="mobile-menu-close" class="text-gray-600 hover:text-gray-900 mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Form -->
+    <main class="flex items-center justify-center min-h-screen">
+        <div class="bg-white shadow-md rounded-lg p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-6 text-center">Attendance Report Generation System</h2>
+            <form>
+                <!-- Added dropdown for selecting user type -->
+                <div class="mb-4">
+                    <label for="userType" class="block text-gray-700 mb-2">Select User</label>
+                    <select id="userType" name="userType"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300">
+                        <option value="">Select Role</option>
+                        <option value="Director">Director</option>
+                        <option value="HOD">HOD</option>
+                        <option value="Faculty">Faculty</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-700 mb-2">Username</label>
+                    <input type="text" id="username" name="username"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300">
+                </div>
+                
+                <div class="mb-6">
+                    <label for="password" class="block text-gray-700 mb-2">Password</label>
+                    <input type="password" id="password" name="password"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300">
+                </div>
+                <button type="submit"
+                    class="w-full bg-[#002147] text-white py-2 rounded hover:bg-[#003166] transition-colors">Login</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="bg-gradient-to-b from-black to-[#1a1a1a] text-white pt-12 pb-4 text-sm relative">
+            <div class="absolute inset-0 opacity-50"
+                style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
+            <div class="relative z-10 container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    <div>
+                        <h2 class="text-xl font-bold mb-4 text-blue-400 tracking-wide">CONTACT US</h2>
+                        <p class="flex items-start text-gray-300 mb-2">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10" />
+                            </svg>
+                            Link Road Number 3, Near Kali Mata Mandir, Bhopal, Madhya Pradesh, India 462003
+                        </p>
+                        <p class="flex items-center text-gray-300 mb-2">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5h18M3 12h18M3 19h18" />
+                            </svg>
+                            +91 755 4051000, 4052000
+                        </p>
+                        <p class="flex items-center text-gray-300">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5h18M3 12h18M3 19h18" />
+                            </svg>
+                            +91-755 2670562
+                        </p>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold mb-4 text-blue-400 tracking-wide">GET IN TOUCH</h2>
+                        <p class="flex items-center text-gray-300 mb-2">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 12H8m8 4H8m8-8H8" />
+                            </svg>
+                            pro[at]manit[dot]ac[dot]in
+                        </p>
+                        <p class="flex items-center text-gray-300 mb-2">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 12H8m8 4H8m8-8H8" />
+                            </svg>
+                            officeofdirector[at]manit[dot]ac[dot]in
+                        </p>
+                        <p class="flex items-center text-gray-300">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 12H8m8 4H8m8-8H8" />
+                            </svg>
+                            <a href="https://www.manit.ac.in" class="text-blue-400 hover:text-blue-300 underline"
+                                target="_blank" rel="noopener noreferrer">www.manit.ac.in</a>
+                        </p>
+                    </div>
+                    <div class="text-center md:text-left">
+                        <h2 class="text-xl font-bold mb-4 text-blue-400 tracking-wide">FOLLOW US</h2>
+                        <div class="flex justify-center md:justify-start space-x-6">
+                            <a href="https://www.facebook.com/people/MANIT-Bhopal/100057525636119/"
+                                class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-500 transition-all"
+                                target="_blank" rel="noopener noreferrer">
+                                <span class="text-white">F</span>
+                            </a>
+                            <a href="https://www.youtube.com/channel/UCXzZC99puUZuJDiQ09p72cw"
+                                class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center hover:bg-red-500 transition-all"
+                                target="_blank" rel="noopener noreferrer">
+                                <span class="text-white">Y</span>
+                            </a>
+                            <a href="https://twitter.com/manitbpl"
+                                class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center hover:bg-blue-300 transition-all"
+                                target="_blank" rel="noopener noreferrer">
+                                <span class="text-white">T</span>
+                            </a>
+                            <a href="https://www.instagram.com/manitbhopl/"
+                                class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center hover:from-purple-500 hover:to-pink-400 transition-all"
+                                target="_blank" rel="noopener noreferrer">
+                                <span class="text-white">I</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-gray-700/50 text-center">
+                    <p class="text-yellow-400">
+                        © <script>document.write(new Date().getFullYear());</script> MANIT Bhopal. All Rights Reserved |
+                        <a href="#" class="ml-1 text-blue-400 hover:text-blue-300">Terms of Use</a> and
+                        <a href="#" class="ml-1 text-blue-400 hover:text-blue-300">Privacy Policy</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Minimal JS for mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('-translate-x-full');
+        });
+
+        mobileMenuClose.addEventListener('click', () => {
+            mobileMenu.classList.add('-translate-x-full');
+        });
+    </script>
+</body>
+
+</html>

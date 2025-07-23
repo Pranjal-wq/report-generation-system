@@ -1,0 +1,2660 @@
+{
+	"info": {
+		"_postman_id": "972899d2-f17c-48ec-ad70-a4e993e040c5",
+		"name": "Admin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34048243",
+		"_collection_link": "https://www.postman.com/compliant-portal/workspace/reportgeneration-api/collection/34048243-972899d2-f17c-48ec-ad70-a4e993e040c5?action=share&source=collection_link&creator=34048243"
+	},
+	"item": [
+		{
+			"name": "GetDepartments2 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>Department</th>\r",
+							"        <th>Branches</th>\r",
+							"        <th>Courses</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response.departments}}\r",
+							"        <tr>\r",
+							"            <td>{{department}}</td>\r",
+							"            <td>\r",
+							"                <ul>\r",
+							"                    {{#each branches}}\r",
+							"                        <li>Course: {{course}}, Program: {{program}}, Short Form: {{shortForm}}, Session: {{session}}, Duration: {{duration}}</li>\r",
+							"                    {{/each}}\r",
+							"                </ul>\r",
+							"            </td>\r",
+							"            <td>\r",
+							"                <ul>\r",
+							"                    {{#each courses}}\r",
+							"                        <li>Name: {{name}}, Type: {{type}}, Duration: {{duration}}</li>\r",
+							"                    {{/each}}\r",
+							"                </ul>\r",
+							"            </td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    return {response: pm.response.json()}\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());",
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields - status, departments, and branches\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.status).to.exist;",
+							"  pm.expect(responseData.departments).to.exist;",
+							"  pm.expect(responseData.branches).to.exist;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Validate the format of the _id field in the departments array\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData.departments).to.be.an('array');",
+							"    responseData.departments.forEach(function(department) {",
+							"        pm.expect(department._id).to.be.a('string');",
+							"        pm.expect(department._id).to.match(/^[0-9a-fA-F]{24}$/); // Validate for MongoDB ObjectId format",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Courses array is present and contains expected number of elements\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.departments).to.be.an('array');",
+							"    ",
+							"    responseData.departments.forEach(department => {",
+							"        pm.expect(department.courses).to.exist;",
+							"        pm.expect(department.courses).to.be.an('array');",
+							"        pm.expect(department.courses).to.have.lengthOf.at.least(0);",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"pm.test(\"Validate courses array properties\", function () {",
+							"    const responseData = pm.response.json();",
+							"    const courses = responseData.departments[0].courses;",
+							"",
+							"    courses.forEach(course => {",
+							"        pm.expect(course.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should be a non-empty string\");",
+							"        pm.expect(course.type).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Type should be a non-empty string\");",
+							"        pm.expect(course.duration).to.be.a('number').and.to.be.at.least(0, \"Duration should be a non-negative integer\");",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/admin/departments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"departments"
+					]
+				},
+				"description": "### This is the API Endpoint made for the ADMIN for the input module . Through this we retrieve the departments related info"
+			},
+			"response": [
+				{
+					"name": "Departments",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/admin/departments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"departments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "8811"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"226b-wkdaASRH3c9FSS+bU5FbOeb2H10\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 10 Apr 2025 12:35:44 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"departments\": [\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2d0\",\n            \"department\": \"Architecture & Planning\",\n            \"cn\": \"AP\",\n            \"branches\": [\n                {\n                    \"course\": \"Bachelor of Architecture\",\n                    \"program\": \"B.Arch.\",\n                    \"shortForm\": \"BArch\",\n                    \"session\": [\n                        \"2022-27\"\n                    ],\n                    \"duration\": 5\n                },\n                {\n                    \"course\": \"Bachelor of Planning\",\n                    \"program\": \"B.Plan.\",\n                    \"shortForm\": \"BPlan\",\n                    \"session\": [\n                        \"2022-26\"\n                    ],\n                    \"duration\": 4\n                },\n                {\n                    \"course\": \"Urban Planning\",\n                    \"program\": \"M.Plan.\",\n                    \"shortForm\": \"UPlan\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Real Estate Development\",\n                    \"program\": \"M.Plan.\",\n                    \"shortForm\": \"RED\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Arch.\",\n                    \"type\": \"UG\",\n                    \"duration\": 5\n                },\n                {\n                    \"name\": \"B.Plan.\",\n                    \"type\": \"UG\",\n                    \"duration\": 4\n                },\n                {\n                    \"name\": \"M.Plan.\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2d1\",\n            \"department\": \"Biological Science and Engineering\",\n            \"cn\": \"BSE\",\n            \"branches\": [\n                {\n                    \"course\": \"Bio-Technology\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"BT\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2d2\",\n            \"department\": \"Centre for Artificial Intelligence\",\n            \"cn\": \"AI\",\n            \"branches\": [\n                {\n                    \"course\": \"Artificial Intelligence\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"CSE_AI\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2d3\",\n            \"department\": \"Centre of Excellence in Product Design & Smart Manufacturing\",\n            \"cn\": \"CEPDSM\",\n            \"branches\": [\n                {\n                    \"course\": \"Smart Manufacturing\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"CEPDSM\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2d4\",\n            \"department\": \"Chemical Engineering\",\n            \"cn\": \"CHEM\",\n            \"branches\": [\n                {\n                    \"course\": \"Bachelor of Technology\",\n                    \"program\": \"B.Tech\",\n                    \"shortForm\": \"CHEM\",\n                    \"session\": [\n                        \"2022-26\",\n                        \"2023-27\",\n                        \"2024-28\"\n                    ],\n                    \"duration\": 4\n                },\n                {\n                    \"course\": \"Chemical Engineering\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"CE\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Environmental Engineering\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"EE\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Tech\",\n                    \"type\": \"UG\",\n                    \"duration\": 4\n                },\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2d5\",\n            \"department\": \"Civil Engineering\",\n            \"cn\": \"CVL\",\n            \"branches\": [\n                {\n                    \"course\": \"Civil Engineering\",\n                    \"program\": \"B.Tech\",\n                    \"shortForm\": \"CVL\",\n                    \"session\": [\n                        \"2022-26\",\n                        \"2023-27\",\n                        \"2024-28\"\n                    ],\n                    \"duration\": 4\n                },\n                {\n                    \"course\": \"Geoinformatics & its Applications\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"GIA\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Geotechnical Engineering\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"GTE\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Water Resource Engineering & Management\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"WREM\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Structural Engineering\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"SE\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Transportation Engineering\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"TE\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Infrastructure Engineering And Construction Management\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"IECM\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Tech\",\n                    \"type\": \"UG\",\n                    \"duration\": 4\n                },\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2d6\",\n            \"department\": \"Computer Science & Engineering\",\n            \"cn\": \"CSE\",\n            \"branches\": [\n                {\n                    \"course\": \"Computer Science & Engineering\",\n                    \"program\": \"B.Tech\",\n                    \"shortForm\": \"CSE\",\n                    \"session\": [\n                        \"2022-26\",\n                        \"2023-27\",\n                        \"2024-28\"\n                    ],\n                    \"duration\": 4\n                },\n                {\n                    \"course\": \"Advanced Computing\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"CSE_AC\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Computer Networks\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"CSE_CN\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Information Security\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"CSE_IS\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Tech\",\n                    \"type\": \"UG\",\n                    \"duration\": 4\n                },\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2d7\",\n            \"department\": \"Electrical Engineering\",\n            \"cn\": \"EE\",\n            \"branches\": [\n                {\n                    \"course\": \"Electrical Engineering\",\n                    \"program\": \"B.Tech\",\n                    \"shortForm\": \"EE\",\n                    \"session\": [\n                        \"2022-26\",\n                        \"2023-27\",\n                        \"2024-28\"\n                    ],\n                    \"duration\": 4\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Tech\",\n                    \"type\": \"UG\",\n                    \"duration\": 4\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2d8\",\n            \"department\": \"Electronics & Communication Engineering\",\n            \"cn\": \"ECE\",\n            \"branches\": [\n                {\n                    \"course\": \"Electronics & Communication Engineering\",\n                    \"program\": \"B.Tech\",\n                    \"shortForm\": \"ECE\",\n                    \"session\": [\n                        \"2022-26\",\n                        \"2023-27\",\n                        \"2024-28\"\n                    ],\n                    \"duration\": 4\n                },\n                {\n                    \"course\": \"Communication Systems\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"ECE_CS\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"VLSI design & Embedded System\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"ECE_VED\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Tech\",\n                    \"type\": \"UG\",\n                    \"duration\": 4\n                },\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2d9\",\n            \"department\": \"Energy Centre\",\n            \"cn\": \"EC\",\n            \"branches\": [\n                {\n                    \"course\": \"Renewable Energy\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"RE\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2da\",\n            \"department\": \"Energy and Electrical Vehicle Engineering\",\n            \"cn\": \"EEVE\",\n            \"branches\": [\n                {\n                    \"course\": \"Energy and Electrical Vehicle Engineering\",\n                    \"program\": \"B.Tech\",\n                    \"shortForm\": \"EEVE\",\n                    \"session\": [\n                        \"2022-26\",\n                        \"2023-27\",\n                        \"2024-28\"\n                    ],\n                    \"duration\": 4\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Tech\",\n                    \"type\": \"UG\",\n                    \"duration\": 4\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2db\",\n            \"department\": \"Energy Economics and Management\",\n            \"cn\": \"EEM\",\n            \"branches\": [\n                {\n                    \"course\": \"M.Sc in Energy\",\n                    \"program\": \"M.Sc.\",\n                    \"shortForm\": \"MSC_ENG\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"M.Sc.\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2dc\",\n            \"department\": \"Management Studies\",\n            \"cn\": \"MGMT\",\n            \"branches\": [\n                {\n                    \"course\": \"Master of Business Administration\",\n                    \"program\": \"MBA\",\n                    \"shortForm\": \"MBA\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"MBA\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2dd\",\n            \"department\": \"Materials & Metallurgical Engineering\",\n            \"cn\": \"MME\",\n            \"branches\": [\n                {\n                    \"course\": \"Materials & Metallurgical Engineering\",\n                    \"program\": \"B.Tech\",\n                    \"shortForm\": \"MME\",\n                    \"session\": [\n                        \"2022-26\",\n                        \"2023-27\",\n                        \"2024-28\"\n                    ],\n                    \"duration\": 4\n                },\n                {\n                    \"course\": \"Material Science & Technology\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"MST\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Tech\",\n                    \"type\": \"UG\",\n                    \"duration\": 4\n                },\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2de\",\n            \"department\": \"Mathematics and Data Science\",\n            \"cn\": \"MDS\",\n            \"branches\": [\n                {\n                    \"course\": \"Mathematics and Data Science\",\n                    \"program\": \"B.Tech-M.Tech\",\n                    \"shortForm\": \"MDS\",\n                    \"session\": [],\n                    \"duration\": 5\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Tech-M.Tech\",\n                    \"type\": \"DD\",\n                    \"duration\": 5\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2df\",\n            \"department\": \"Mathematics, Bioinformatics & Computer Applications\",\n            \"cn\": \"MBC\",\n            \"branches\": [\n                {\n                    \"course\": \"Bioinformatics\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"BI\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Agile Software Engineering\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"ASE\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Master of Computer Applications\",\n                    \"program\": \"MCA\",\n                    \"shortForm\": \"MCA\",\n                    \"session\": [],\n                    \"duration\": 3\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                },\n                {\n                    \"name\": \"MCA\",\n                    \"type\": \"PG\",\n                    \"duration\": 3\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2e0\",\n            \"department\": \"Mechanical Engineering\",\n            \"cn\": \"ME\",\n            \"branches\": [\n                {\n                    \"course\": \"Mechanical Engineering\",\n                    \"program\": \"B.Tech\",\n                    \"shortForm\": \"ME\",\n                    \"session\": [\n                        \"2022-26\",\n                        \"2023-27\",\n                        \"2024-28\"\n                    ],\n                    \"duration\": 4\n                },\n                {\n                    \"course\": \"Automation and Robotics\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"AR\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Machine Design\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"MD\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Industrial Engineering and Management\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"IEM\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Thermal Engineering\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"TH\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Tech\",\n                    \"type\": \"UG\",\n                    \"duration\": 4\n                },\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2e1\",\n            \"department\": \"Physics\",\n            \"cn\": \"PHY\",\n            \"branches\": [\n                {\n                    \"course\": \"Nano Technology\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"NT\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"M.Sc in Physics\",\n                    \"program\": \"M.Sc.\",\n                    \"shortForm\": \"MSP\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                },\n                {\n                    \"name\": \"M.Sc.\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2e2\",\n            \"department\": \"Chemistry\",\n            \"cn\": \"CHEM\",\n            \"branches\": [\n                {\n                    \"course\": \"M.Sc in Chemistry\",\n                    \"program\": \"M.Sc.\",\n                    \"shortForm\": \"CHEM_MSC\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"M.Sc.\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f53873c441dc85ba4ed2e3\",\n            \"department\": \"Engineering and Computational Mechanics\",\n            \"cn\": \"ECM\",\n            \"branches\": [\n                {\n                    \"course\": \"Engineering and Computational Mechanics\",\n                    \"program\": \"B.Tech-M.Tech\",\n                    \"shortForm\": \"DD-ECM\",\n                    \"session\": [],\n                    \"duration\": 5\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"B.Tech-M.Tech\",\n                    \"type\": \"DD\",\n                    \"duration\": 5\n                }\n            ]\n        },\n        {\n            \"_id\": \"67f7708efbccc1111e0af35e\",\n            \"department\": \"Electrical Engineering Electronics & Communication Engineering\",\n            \"cn\": \"EEECE\",\n            \"branches\": [\n                {\n                    \"course\": \"Power Electronics & Drives\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"PED\",\n                    \"session\": [],\n                    \"duration\": 2\n                },\n                {\n                    \"course\": \"Integrated Power System\",\n                    \"program\": \"M.Tech\",\n                    \"shortForm\": \"IPS\",\n                    \"session\": [],\n                    \"duration\": 2\n                }\n            ],\n            \"courses\": [\n                {\n                    \"name\": \"M.Tech\",\n                    \"type\": \"PG\",\n                    \"duration\": 2\n                }\n            ]\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "GetSpecificDept Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Content-Type header is application/json\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Validate the department object\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.department).to.exist.and.to.be.an('object');",
+							"    pm.expect(responseData.department._id).to.exist.and.to.be.a('string');",
+							"    pm.expect(responseData.department.department).to.exist.and.to.be.a('string');",
+							"    pm.expect(responseData.department.cn).to.exist.and.to.be.a('string');",
+							"    pm.expect(responseData.department.branches).to.exist.and.to.be.an('array');",
+							"    pm.expect(responseData.department.branches).to.not.be.empty;",
+							"    responseData.department.branches.forEach(function(branch) {",
+							"        pm.expect(branch).to.be.an('object');",
+							"        pm.expect(branch.course).to.exist.and.to.be.a('string');",
+							"        pm.expect(branch.program).to.exist.and.to.be.a('string');",
+							"        pm.expect(branch.shortForm).to.exist.and.to.be.a('string');",
+							"        pm.expect(branch.session).to.exist.and.to.be.an('array');",
+							"        pm.expect(branch.duration).to.exist.and.to.be.a('number');",
+							"    });",
+							"    pm.expect(responseData.department.courses).to.exist.and.to.be.an('array');",
+							"    pm.expect(responseData.department.courses).to.not.be.empty;",
+							"    responseData.department.courses.forEach(function(course) {",
+							"        pm.expect(course).to.be.an('object');",
+							"        pm.expect(course.name).to.exist.and.to.be.a('string');",
+							"        pm.expect(course.type).to.exist.and.to.be.a('string');",
+							"        pm.expect(course.duration).to.exist.and.to.be.a('number');",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Branches array is present and contains expected number of elements\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.department.branches).to.exist.and.to.be.an('array');",
+							"    pm.expect(responseData.department.branches).to.have.lengthOf(1);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Validate that course and program in branches are non-empty strings\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.department.branches).to.be.an('array');",
+							"    ",
+							"    responseData.department.branches.forEach(branch => {",
+							"        pm.expect(branch.course).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Course should be a non-empty string\");",
+							"        pm.expect(branch.program).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Program should be a non-empty string\");",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/admin/departments/67f53873c441dc85ba4ed2d6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"departments",
+						"67f53873c441dc85ba4ed2d6"
+					]
+				},
+				"description": "Returns the info of the particular Department"
+			},
+			"response": [
+				{
+					"name": "GetSpecificDept",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/admin/departments/67f53873c441dc85ba4ed2d6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"departments",
+								"67f53873c441dc85ba4ed2d6"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "667"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"29b-TG8nNLPAos5TUIddVoVi+zSQYYQ\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 10 Apr 2025 12:36:57 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"department\": {\n        \"_id\": \"67f53873c441dc85ba4ed2d6\",\n        \"department\": \"Computer Science & Engineering\",\n        \"cn\": \"CSE\",\n        \"branches\": [\n            {\n                \"course\": \"Computer Science & Engineering\",\n                \"program\": \"B.Tech\",\n                \"shortForm\": \"CSE\",\n                \"session\": [\n                    \"2022-26\",\n                    \"2023-27\",\n                    \"2024-28\"\n                ],\n                \"duration\": 4\n            },\n            {\n                \"course\": \"Advanced Computing\",\n                \"program\": \"M.Tech\",\n                \"shortForm\": \"CSE_AC\",\n                \"session\": [],\n                \"duration\": 2\n            },\n            {\n                \"course\": \"Computer Networks\",\n                \"program\": \"M.Tech\",\n                \"shortForm\": \"CSE_CN\",\n                \"session\": [],\n                \"duration\": 2\n            },\n            {\n                \"course\": \"Information Security\",\n                \"program\": \"M.Tech\",\n                \"shortForm\": \"CSE_IS\",\n                \"session\": [],\n                \"duration\": 2\n            }\n        ],\n        \"courses\": [\n            {\n                \"name\": \"B.Tech\",\n                \"type\": \"UG\",\n                \"duration\": 4\n            },\n            {\n                \"name\": \"M.Tech\",\n                \"type\": \"PG\",\n                \"duration\": 2\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Add Subject Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"subjects\": [\r\n    {\r\n      \"subjectCode\": \"CS102\",\r\n      \"subjectName\": \"Data Structures\",\r\n      \"department\": \"Test\",\r\n      \"isElective\": false\r\n    },\r\n    {\r\n      \"subjectCode\": \"CS103\",\r\n      \"subjectName\": \"Database Management\",\r\n      \"department\": \"Test\",\r\n      \"isElective\": false\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/admin/subjects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"subjects"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add Subject",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"subjectCode\": \"testing\",\r\n  \"subjectName\": \"Introduction to Computer Science\",\r\n  \"department\": \"Test\",\r\n  \"isElective\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/subjects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"subjects"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "255"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"ff-amG8CpDlQlv5SMsFMqqjBZB1S8Q\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 09:46:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Subject added successfully\",\n    \"subject\": {\n        \"subjectCode\": \"testing\",\n        \"subjectName\": \"Introduction to Computer Science\",\n        \"department\": \"Test\",\n        \"isElective\": false,\n        \"createdAt\": \"2025-04-12T09:46:24.580Z\",\n        \"_id\": \"67fa3670bc41fe46ecdab100\"\n    }\n}"
+				},
+				{
+					"name": "Add Multiple Subjects",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"subjects\": [\r\n    {\r\n      \"subjectCode\": \"CS102\",\r\n      \"subjectName\": \"Data Structures\",\r\n      \"department\": \"Test\",\r\n      \"isElective\": false\r\n    },\r\n    {\r\n      \"subjectCode\": \"CS103\",\r\n      \"subjectName\": \"Database Management\",\r\n      \"department\": \"Test\",\r\n      \"isElective\": false\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/subjects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"subjects"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "300"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"12c-NskIn1mG2+h1B9Ed2375Smy77YM\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 09:48:00 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully added 2 subjects, with 0 failures\",\n    \"results\": {\n        \"successful\": [\n            {\n                \"subjectCode\": \"CS102\",\n                \"subjectName\": \"Data Structures\",\n                \"_id\": \"67fa36d0bc41fe46ecdab101\"\n            },\n            {\n                \"subjectCode\": \"CS103\",\n                \"subjectName\": \"Database Management\",\n                \"_id\": \"67fa36d0bc41fe46ecdab102\"\n            }\n        ],\n        \"failed\": []\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Updt Subjects Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subjectUpdates\": [\r\n        {\r\n            \"subjectCode\": \"testing\",\r\n            \"subjectName\": \"Introduction to Computer Science\",\r\n            \"department\": \"Test\",\r\n            \"isElective\": true\r\n        },\r\n        {\r\n            \"subjectCode\": \"CS102\",\r\n            \"subjectName\": \"Advanced Database Management\",\r\n             \"department\": \"Test\",\r\n            \"isElective\": false\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/admin/subjects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"subjects"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update Subject",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \r\n  \"subjectCode\": \"CS103\",\r\n  \"subjectName\": \"Database Management\",\r\n  \"department\": \"Test\",\r\n  \"isElective\": true\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/subjects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"subjects"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "106"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"6a-dfvoPMB2LwsC7lzb/103hgcYon0\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 09:51:02 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Subject updated successfully\",\n    \"updatedFields\": [\n        \"subjectName\",\n        \"isElective\"\n    ]\n}"
+				},
+				{
+					"name": "Update Multiple",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subjectUpdates\": [\r\n        {\r\n            \"subjectCode\": \"testing\",\r\n            \"subjectName\": \"Introduction to Computer Science\",\r\n            \"department\": \"Test\",\r\n            \"isElective\": true\r\n        },\r\n        {\r\n            \"subjectCode\": \"CS102\",\r\n            \"subjectName\": \"Advanced Database Management\",\r\n             \"department\": \"Test\",\r\n            \"isElective\": false\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/subjects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"subjects"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "260"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"104-SZbp2n2KYuMtNaxJoMqakB01x/4\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 09:53:08 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully updated 2 subjects, with 0 failures\",\n    \"results\": {\n        \"successful\": [\n            {\n                \"subjectCode\": \"testing\",\n                \"updatedFields\": [\n                    \"subjectName\",\n                    \"isElective\"\n                ]\n            },\n            {\n                \"subjectCode\": \"CS102\",\n                \"updatedFields\": [\n                    \"subjectName\",\n                    \"isElective\"\n                ]\n            }\n        ],\n        \"failed\": []\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "AddDept Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 400\", function () {",
+							"    pm.expect(pm.response.code).to.equal(400);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response status, message, and data fields exist\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.status).to.exist;",
+							"    pm.expect(responseData.message).to.exist;",
+							"    pm.expect(responseData.data).to.exist;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Message is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Data is an empty object\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.data).to.be.an('object').that.is.empty;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Content-Type is application/json\", function () {",
+							"  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"department\": \"Test\",\r\n  \"cn\": \"tst\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/admin/departments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"departments"
+					]
+				},
+				"description": "This is for adding a particular department into the departments collection.Added batch processing capability ."
+			},
+			"response": [
+				{
+					"name": "AddDept",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"department\": \"Test\",\r\n  \"cn\": \"tst\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/departments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"departments"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "104"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"68-37NFZl0bzuEIwvaOqvm12ZvUKeE\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 10 Apr 2025 12:40:14 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Department added successfully\",\n    \"departmentId\": \"67f7bc2e88b872c6a567bdf8\"\n}"
+				}
+			]
+		},
+		{
+			"name": "CreateDeptBulk Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"departments\": [\r\n    {\r\n      \"department\": \"TST\",\r\n      \"cn\": \"Ts1\"\r\n    },\r\n    {\r\n      \"department\": \"TST2\",\r\n      \"cn\": \"Ts2\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/admin/bulk-departments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"bulk-departments"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CreateMultiple",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"departments\": [\r\n    {\r\n      \"department\": \"TST\",\r\n      \"cn\": \"Ts1\"\r\n    },\r\n    {\r\n      \"department\": \"TST2\",\r\n      \"cn\": \"Ts2\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/bulk-departments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"bulk-departments"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "256"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"100-gherQchTVcGaIqAvCCKLwB31p9g\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 09:21:05 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully processed 2 departments, with 0 failures\",\n    \"results\": {\n        \"successful\": [\n            {\n                \"_id\": \"67fa308104ea56dcbdba7bda\",\n                \"department\": \"TST\",\n                \"cn\": \"Ts1\"\n            },\n            {\n                \"_id\": \"67fa308104ea56dcbdba7bdb\",\n                \"department\": \"TST2\",\n                \"cn\": \"Ts2\"\n            }\n        ],\n        \"failed\": []\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateDept Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"departments\": [\r\n    {\r\n      \"departmentId\": \"67fa308104ea56dcbdba7bda\",\r\n      \"department\": \"Updated Name 1\",\r\n      \"cn\": \"UN1\"\r\n    },\r\n    {\r\n      \"departmentId\": \"67fa308104ea56dcbdba7bdb\",\r\n      \"department\": \"Updated Name 2\",\r\n      \"cn\": \"UN2\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/admin/departments/67fa308104ea56dcbdba7bda",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"departments",
+						"67fa308104ea56dcbdba7bda"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "singleUpdate",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"department\": \"Updated Department Name\",\r\n  \"cn\": \"Updated Code\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/departments/67fa308104ea56dcbdba7bda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"departments",
+								"67fa308104ea56dcbdba7bda"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "100"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"64-xGZL0jglhdjQSeLzrxjobXRa+0M\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 09:24:43 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Department updated successfully\",\n    \"updatedFields\": [\n        \"department\",\n        \"cn\"\n    ]\n}"
+				},
+				{
+					"name": "MultipleUpdate",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"departments\": [\r\n    {\r\n      \"departmentId\": \"67fa308104ea56dcbdba7bda\",\r\n      \"department\": \"Updated Name 1\",\r\n      \"cn\": \"UN1\"\r\n    },\r\n    {\r\n      \"departmentId\": \"67fa308104ea56dcbdba7bdb\",\r\n      \"department\": \"Updated Name 2\",\r\n      \"cn\": \"UN2\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/departments/67fa308104ea56dcbdba7bda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"departments",
+								"67fa308104ea56dcbdba7bda"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "283"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"11b-fENz/91quZrOS2JviRU29TUixXM\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 09:26:02 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully updated 2 departments, with 0 failures\",\n    \"results\": {\n        \"successful\": [\n            {\n                \"departmentId\": \"67fa308104ea56dcbdba7bda\",\n                \"updatedFields\": [\n                    \"department\",\n                    \"cn\"\n                ]\n            },\n            {\n                \"departmentId\": \"67fa308104ea56dcbdba7bdb\",\n                \"updatedFields\": [\n                    \"department\",\n                    \"cn\"\n                ]\n            }\n        ],\n        \"failed\": []\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Add Course Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 400\", function () {",
+							"    pm.expect(pm.response.code).to.equal(400);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields - status, message, and data\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData).to.have.property('status');",
+							"    pm.expect(responseData).to.have.property('message');",
+							"    pm.expect(responseData).to.have.property('data');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status is a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.status).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Status should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Message is a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Data should be an empty object\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.data).to.be.an('object').that.is.empty;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"departmentId\": \"67f7d5418f8b222e4e24d497\",\r\n  \"branches\": [\r\n    {\r\n      \"program\": \"Bachelor of Technology\",\r\n      \"course\": \"B.Tech\",\r\n      \"shortForm\": \"BTCS\",\r\n      \"duration\": 4\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/admin/branch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"branch"
+					]
+				},
+				"description": "This for adding a specific course in a particular department .Supports multiple entries for the courses in a particular department ."
+			},
+			"response": [
+				{
+					"name": "Add Course",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"departmentId\": \"67f7bc2e88b872c6a567bdf8\",\r\n  \"branches\": [\r\n    {\r\n      \"course\": \"TestCourse\",\r\n      \"program\": \"B.Tech\",\r\n      \"shortForm\": \"TstC\",\r\n      \"duration\": 4\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"courses"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "72"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"48-oOVf+XAu9am9lPm1aeFflCCOEv4\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 10 Apr 2025 12:45:14 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Branches and courses added successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Add Sessions Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 400\", function () {",
+							"  pm.expect(pm.response.code).to.equal(400);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status field should exist and be a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.status).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Status should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Message field in the response should exist and be a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.message).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Data object is present in the response\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.data).to.exist;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Ensure the Content-Type header is set to application/json\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"departmentId\": \"67f7d5418f8b222e4e24d497\",\r\n  \"branchSessions\": [\r\n    {\r\n      \"branchShortForm\": \"TstC\",\r\n      \"sessions\": [\"2022-26\", \"2023-27\"]\r\n    },\r\n    {\r\n      \"branchShortForm\": \"BTCS\",\r\n      \"sessions\": [\"2022-26\", \"2023-27\"]\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/admin/sessions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"sessions"
+					]
+				},
+				"description": "#### This adds a session to a particular course"
+			},
+			"response": [
+				{
+					"name": "AddSession",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"departmentId\": \"67f7bc2e88b872c6a567bdf8\",\r\n  \"branchShortForm\": \"C\",\r\n  \"session\": \"2023-27\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"sessions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "59"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"3b-2zmPmoVuKib4aJ4cenEIES629Nc\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 10 Apr 2025 12:53:50 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Session added successfully\"\n}"
+				},
+				{
+					"name": "Add Multiple Sessions",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"departmentId\": \"67f7d5418f8b222e4e24d497\",\r\n  \"branchSessions\": [\r\n    {\r\n      \"branchShortForm\": \"TstC\",\r\n      \"sessions\": [\"2022-26\", \"2023-27\"]\r\n    },\r\n    {\r\n      \"branchShortForm\": \"BTCS\",\r\n      \"sessions\": [\"2022-26\", \"2023-27\"]\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"sessions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "233"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e9-4HtWy4nyQQzixEkOV6DpGrsy0j8\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 09:34:15 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Sessions processed successfully\",\n    \"results\": {\n        \"successful\": [\n            {\n                \"branchShortForm\": \"TstC\",\n                \"sessionsAdded\": [\n                    \"2022-26\",\n                    \"2023-27\"\n                ]\n            },\n            {\n                \"branchShortForm\": \"BTCS\",\n                \"sessionsAdded\": [\n                    \"2022-26\",\n                    \"2023-27\"\n                ]\n            }\n        ],\n        \"failed\": []\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "SemConfig Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"semesterType\": \"odd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/admin/semester",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"semester"
+					]
+				},
+				"description": "This is reponsible for the configuring the type of semester . It can be either even or odd depending on the scenario ."
+			},
+			"response": []
+		},
+		{
+			"name": "SemStatus Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/admin/semester",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"semester"
+					]
+				},
+				"description": "This returns whether the present semester in overall manit is even or odd ."
+			},
+			"response": []
+		},
+		{
+			"name": "Add Student Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"students\": [\r\n    {\r\n      \"scholarNumber\": \"CS20220012\",\r\n      \"StudentName\": \"Jane Smith\",\r\n      \"branch\": \"BTCS\",\r\n      \"section\": \"A\",\r\n      \"batch\": \"2022-26\",\r\n      \"department\": \"Test\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/admin/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"students"
+					]
+				},
+				"description": "Adds a particular course in a particular department"
+			},
+			"response": [
+				{
+					"name": "Add Student",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"scholarNumber\": \"2211211111\",\r\n  \"StudentName\": \"testStudent\",\r\n  \"branch\": \"BTCS\",\r\n  \"section\": \"1\",\r\n  \"batch\": \"2022-26\",\r\n  \"department\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"students"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "265"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"109-qn9H3aiBgkpnDdiUDAmnfnNsjFo\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 09:55:37 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Student added successfully\",\n    \"student\": {\n        \"scholarNumber\": \"2211211111\",\n        \"StudentName\": \"testStudent\",\n        \"branch\": \"BTCS\",\n        \"section\": \"1\",\n        \"batch\": \"2022-26\",\n        \"department\": \"1\",\n        \"createdAt\": \"2025-04-12T09:55:37.437Z\",\n        \"_id\": \"67fa3899bc41fe46ecdab103\"\n    }\n}"
+				},
+				{
+					"name": "Add Multiple",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"students\": [\r\n    {\r\n      \"scholarNumber\": \"CS20220002\",\r\n      \"StudentName\": \"Jane Smith\",\r\n      \"branch\": \"BTCS\",\r\n      \"section\": \"A\",\r\n      \"batch\": \"2022-26\",\r\n      \"department\": \"Test\"\r\n    },\r\n    {\r\n      \"scholarNumber\": \"CS20220003\",\r\n      \"StudentName\": \"Robert Johnson\",\r\n      \"branch\": \"BTCS\",\r\n      \"section\": \"B\",\r\n      \"batch\": \"2022-26\",\r\n      \"department\": \"Test\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"students"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "304"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"130-sqyszGwdOLheJPEzs/Zgd956+Hg\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 09:57:47 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully added 2 students, with 0 failures\",\n    \"results\": {\n        \"successful\": [\n            {\n                \"scholarNumber\": \"CS20220002\",\n                \"StudentName\": \"Jane Smith\",\n                \"_id\": \"67fa391bbc41fe46ecdab104\"\n            },\n            {\n                \"scholarNumber\": \"CS20220003\",\n                \"StudentName\": \"Robert Johnson\",\n                \"_id\": \"67fa391bbc41fe46ecdab105\"\n            }\n        ],\n        \"failed\": []\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateStudent Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"studentUpdates\": [\r\n    {\r\n      \"scholarNumber\": \"CS20220002\",\r\n      \"section\": \"B\"\r\n    },\r\n    {\r\n      \"scholarNumber\": \"CS20220012\",\r\n      \"section\": \"A\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/admin/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"students"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update Student",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"scholarNumber\": \"CS20220002\",\r\n  \"StudentName\": \"John William Doe\",\r\n  \"section\": \"B\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"students"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "103"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"67-5IdDEFIDmUUS+LCkg1hSLWdWHx8\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 10:04:23 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Student updated successfully\",\n    \"updatedFields\": [\n        \"StudentName\",\n        \"section\"\n    ]\n}"
+				},
+				{
+					"name": "Update Multiple",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentUpdates\": [\r\n    {\r\n      \"scholarNumber\": \"CS20220002\",\r\n      \"section\": \"B\"\r\n    },\r\n    {\r\n      \"scholarNumber\": \"CS20220012\",\r\n      \"section\": \"A\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admin/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admin",
+								"students"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;img-src 'self' data:;connect-src 'self';font-src 'self' fonts.gstatic.com;object-src 'none';media-src 'self';frame-src 'none';form-action 'self';base-uri 'self';frame-ancestors 'self';script-src-attr 'none'"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "238"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"ee-OZi0SwZA29ZzrcoVdHmAIL1ru6A\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Apr 2025 10:06:39 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully updated 2 students, with 0 failures\",\n    \"results\": {\n        \"successful\": [\n            {\n                \"scholarNumber\": \"CS20220002\",\n                \"updatedFields\": [\n                    \"section\"\n                ]\n            },\n            {\n                \"scholarNumber\": \"CS20220012\",\n                \"updatedFields\": [\n                    \"section\"\n                ]\n            }\n        ],\n        \"failed\": []\n    }\n}"
+				}
+			]
+		}
+	]
+}

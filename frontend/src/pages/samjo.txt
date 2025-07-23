@@ -1,0 +1,4 @@
+Pages maintaned by roles 
+- Separation of concerns 
+- Ease of maintanability
+- Modularity

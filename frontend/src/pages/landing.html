@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MANIT Attendance Management Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN for Brand Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-pIVpKfH1DgHPrN9qAl/eAix6N+qMx6mwwh7IRBRYj09AGzCslzOebjXqkeVbKfYP+fT3xqZQ73IM+K+e3Uq9Og=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Lucide Icons CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- NavBar -->
+    <header>
+      <div class="bg-[#002147] text-white py-3 px-6 flex items-center justify-between">
+        <!-- Left: Logo & Institute Name -->
+        <div class="flex items-center space-x-4">
+          <img src="/manit_sm.png" alt="MANIT Logo" class="h-10 w-auto" />
+          <div>
+            <h1 class="text-lg font-semibold">MANIT BHOPAL</h1>
+            <p class="text-xs md:text-sm">
+              Maulana Azad National Institute of Technology
+            </p>
+          </div>
+        </div>
+        <!-- Right: External Link -->
+        <div class="flex items-center space-x-6">
+          <a
+            href="https://www.manit.ac.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm flex items-center text-yellow-400 hover:text-blue-200 transition-colors duration-200"
+          >
+            <span>MANIT</span>
+            <!-- Lucide External Link Icon -->
+            <i data-lucide="external-link" class="ml-1" width="14" height="14"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Optional Tagline (currently commented out) -->
+      <!--
+      <div class="flex justify-center items-center bg-[#1F3C5D] text-yellow-400 font-semibold text-sm tracking-wide py-4 md:text-center">
+        Analyze, Automate & Generate
+      </div>
+      -->
+    </header>
+
+    <!-- Main Content -->
+    <main
+      class="flex-1 flex flex-col items-center justify-center relative"
+      style="background-image: url('/bg1.jpg'); background-size: cover; background-position: center;"
+    >
+      <!-- Dark Overlay -->
+      <div class="absolute inset-0 bg-black/50"></div>
+
+      <div class="relative z-10 text-center text-white mb-16">
+        <h1 class="text-5xl font-bold mb-4">WELCOME TO MANIT</h1>
+        <h2 class="text-4xl font-semibold mb-2">ATTENDANCE</h2>
+        <h3 class="text-3xl font-semibold">MANAGEMENT PORTAL</h3>
+      </div>
+
+      <div class="relative z-10 flex gap-8">
+        <a
+          href="#"
+          class="bg-black/70 hover:bg-black/80 backdrop-blur-sm border border-white/20 p-6 rounded-lg shadow-lg transition-all duration-300 w-64 text-center"
+        >
+          <h3 class="text-2xl font-semibold text-white mb-2">
+            Attendance Management
+          </h3>
+        </a>
+        <a
+          href="#"
+          class="bg-black/70 hover:bg-black/80 backdrop-blur-sm border border-white/20 p-6 rounded-lg shadow-lg transition-all duration-300 w-64 text-center"
+        >
+          <h3 class="text-2xl font-semibold text-white mb-2">
+            Attendance Report Generation
+          </h3>
+        </a>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-b from-black to-[#1a1a1a] text-white pt-5 pb-1 text-xs relative">
+      <div
+        class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-50"
+      ></div>
+
+      <div class="container mx-auto px-2 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-2">
+          <!-- CONTACT US -->
+          <div class="transform hover:scale-105 transition-transform duration-300">
+            <h2 class="text-base font-bold mb-1 text-blue-400 tracking-wide">
+              CONTACT US
+            </h2>
+            <div class="space-y-1 text-gray-300 hover:text-white transition-colors duration-200">
+              <p class="flex items-start">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 mr-1 flex-shrink-0"></i>
+                <span>
+                  Link Road Number 3, Near Kali Mata Mandir, Bhopal, Madhya Pradesh, India 462003
+                </span>
+              </p>
+              <p class="flex items-center">
+                <i data-lucide="phone" class="w-3.5 h-3.5 mr-1"></i>
+                <span>+91 755 4051000, 4052000</span>
+              </p>
+              <p class="flex items-center">
+                <i data-lucide="printer" class="w-3.5 h-3.5 mr-1"></i>
+                <span>+91-755 2670562</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- GET IN TOUCH -->
+          <div class="transform hover:scale-105 transition-transform duration-300">
+            <h2 class="text-base font-bold mb-1 text-blue-400 tracking-wide">
+              GET IN TOUCH
+            </h2>
+            <div class="space-y-1 text-gray-300 hover:text-white transition-colors duration-200">
+              <p class="flex items-center">
+                <i data-lucide="mail" class="w-3.5 h-3.5 mr-1"></i>
+                <span>pro[at]manit[dot]ac[dot]in</span>
+              </p>
+              <p class="flex items-center">
+                <i data-lucide="at-sign" class="w-3.5 h-3.5 mr-1"></i>
+                <span>officeofdirector[at]manit[dot]ac[dot]in</span>
+              </p>
+              <p class="flex items-center">
+                <i data-lucide="globe" class="w-3.5 h-3.5 mr-1"></i>
+                <a
+                  href="https://www.manit.ac.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-400 hover:text-blue-300 transition-colors duration-200 underline"
+                  >www.manit.ac.in</a
+                >
+              </p>
+            </div>
+          </div>
+
+          <!-- FOLLOW US -->
+          <div class="text-center md:text-left">
+            <h2 class="text-base font-bold mb-1 text-blue-400 tracking-wide">
+              FOLLOW US
+            </h2>
+            <div class="flex justify-center md:justify-start space-x-3">
+              <a
+                href="https://www.facebook.com/people/MANIT-Bhopal/100057525636119/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center transform hover:scale-110 hover:bg-blue-500 transition-all duration-300"
+              >
+                <i class="fab fa-facebook-f text-white text-xs"></i>
+              </a>
+              <a
+                href="https://www.youtube.com/channel/UCXzZC99puUZuJDiQ09p72cw"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-7 h-7 rounded-full bg-red-600 flex items-center justify-center transform hover:scale-110 hover:bg-red-500 transition-all duration-300"
+              >
+                <i class="fab fa-youtube text-white text-xs"></i>
+              </a>
+              <a
+                href="https://twitter.com/manitbpl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-7 h-7 rounded-full bg-blue-400 flex items-center justify-center transform hover:scale-110 hover:bg-blue-300 transition-all duration-300"
+              >
+                <i class="fab fa-twitter text-white text-xs"></i>
+              </a>
+              <a
+                href="https://www.instagram.com/manitbhopl/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-7 h-7 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center transform hover:scale-110 hover:from-purple-500 hover:to-pink-400 transition-all duration-300"
+              >
+                <i class="fab fa-instagram text-white text-xs"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-1 mt-1 border-t border-gray-700/50 text-center">
+          <p class="text-yellow-400 hover:text-white transition-colors duration-200">
+            © <span id="year"></span> MANIT Bhopal. All Rights Reserved |
+            <a href="#" class="ml-1 text-blue-400 hover:text-blue-300 transition-colors duration-200">Terms</a>
+            and
+            <a href="#" class="ml-1 text-blue-400 hover:text-blue-300 transition-colors duration-200">Privacy</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+      // Set current year in footer
+      document.getElementById("year").textContent = new Date().getFullYear();
+      // Initialize Lucide icons
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

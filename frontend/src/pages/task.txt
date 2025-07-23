@@ -1,0 +1,27 @@
+Add Department: Only Admin can add 
+2. Add Course (BTech, MTech, MBA, MSc, Barch etc): Only Admin can add 
+a. Step1: Select Department from dropdown  
+b. Step 2: Add Multiple courses in selected department 
+3. Add Session: Departmental admin can add and submit for approval to the admin 
+4. Add Branch: Admin and Departmental Admin 
+a. Step1: Select Department 
+b. Step2: Select Course 
+c. Step3: Add Multiple branches in selected course 
+5. Options to enable semester: Admin Only 
+a. Even or Odd 
+6. Add Faculty: List is visible to the respective departmental admin (All Faculty is 
+visible to the Admin) Both Admin and Departmental admin can add the new 
+faculty. 
+a. Step1: Select Department 
+b. Step3: Upload List (Name, Emp Code, Email, Phone, abbv) 
+7. Add Subject List  
+a. Step1: Select related department, course and branch 
+b. Step2: Upload Subject List (Subject Name, Subject Code, isElective)  
+8. Add Timetable 
+a. Step1: Select related department, course and branch 
+b. Step2: Select Session from dropdown (Upon selection of session autofill 
+Semester will show in text) 
+c. Step2: Upload timetable (Subject Code, T) 
+9. Add Student List 
+a. Step1: Select related department, course and branch 
+b. Step2: Select Sessionsemestersection

@@ -1,0 +1,13 @@
+The structure which we are following is 
+Dashboard (Which Appears for the Director . I have stored the page related codes in the folders named on basis of the Roles)
+- Has Two sections Input and Student Section 
+- Input section Varies as per the Selection of the Report whom user want to fetch .
+- Report Section has 3 reports .Currently I considered only the student Report  .
+
+
+
+------
+Student Report will be having the 
+- Overall ,Daily and The Monthly 
+------
+
