@@ -1,0 +1,131 @@
+{
+  "_id": {
+    "$oid": "678ce4d1cd76735183ab8355"
+  },
+  "ownerId": {
+    "$oid": "678ce4d1cd76735183ab8354"
+  },
+  "TimeTable": {
+    "1": [],
+    "2": [
+      {
+        "subject": {
+          "_id": {
+            "$oid": "678ce483cd76735183ab8347"
+          },
+          "subjectCode": "CSE321",
+          "subjectName": "Machine Learning",
+          "department": "CSE",
+          "isElective": false
+        },
+        "branch": "CSE",
+        "semester": "VI",
+        "timing": "10:00-11:00AM",
+        "section": "1",
+        "location": "LRC A Block Ground Floor",
+        "course": "B-Tech",
+        "session": "2022-26"
+      },
+      {
+        "subject": {
+          "_id": {
+            "$oid": "678ce483cd76735183ab834e"
+          },
+          "subjectCode": "CSE324",
+          "subjectName": "Machine Learning Lab",
+          "department": "CSE",
+          "isElective": false
+        },
+        "branch": "CSE",
+        "semester": "VI",
+        "timing": "02:30-04:30PM",
+        "section": "1",
+        "location": "TA 209",
+        "course": "B-Tech",
+        "session": "2022-26"
+      }
+    ],
+    "3": [
+      {
+        "subject": {
+          "_id": {
+            "$oid": "678ce483cd76735183ab8347"
+          },
+          "subjectCode": "CSE321",
+          "subjectName": "Machine Learning",
+          "department": "CSE",
+          "isElective": false
+        },
+        "branch": "CSE",
+        "semester": "VI",
+        "timing": "10:00-11:00AM",
+        "section": "1",
+        "location": "LRC A Block Ground Floor",
+        "course": "B-Tech",
+        "session": "2022-26"
+      }
+    ],
+    "4": [
+      {
+        "subject": {
+          "_id": {
+            "$oid": "678ce483cd76735183ab8347"
+          },
+          "subjectCode": "CSE321",
+          "subjectName": "Machine Learning",
+          "department": "CSE",
+          "isElective": false
+        },
+        "branch": "CSE",
+        "semester": "VI",
+        "timing": "11:00-12:00PM",
+        "section": "1",
+        "location": "LRC A Block Ground Floor",
+        "course": "B-Tech",
+        "session": "2022-26"
+      }
+    ],
+    "5": [
+      {
+        "subject": {
+          "_id": {
+            "$oid": "678ce483cd76735183ab834b"
+          },
+          "subjectCode": "CSE227",
+          "subjectName": "Poject Based Lab",
+          "department": "CSE",
+          "isElective": false
+        },
+        "branch": "CSE",
+        "semester": "IV",
+        "timing": "02:30-04:30PM",
+        "section": "1",
+        "location": "CSE Department",
+        "course": "B-Tech",
+        "session": "2023-27"
+      }
+    ],
+    "6": [],
+    "7": []
+  },
+  "assignedToMe": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": [],
+    "6": [],
+    "7": []
+  },
+  "meAssignedToOther": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": [],
+    "6": [],
+    "7": []
+  },
+  "request": [],
+  "meRequestedOther": []
+}

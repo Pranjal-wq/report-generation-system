@@ -1,0 +1,14 @@
+{
+    "_id": {
+      "$oid": "678ce4d0cd76735183ab8350"
+    },
+    "name": "Meenu Chawla",
+    "password": "$2b$12$/uO0dJ87WO5RtqhRI1otDej46.tm5R64mrb.HLGpSVlgmyufIRXZi",
+    "about": "Available",
+    "employeeCode": "0640",
+    "role": "Prof",
+    "department": "CSE",
+    "email": "meenuchawlamanit@gmail.com",
+    "phone": "7554051302",
+    "abbreviation": "MC"
+  }

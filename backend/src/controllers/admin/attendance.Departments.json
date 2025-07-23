@@ -1,0 +1,772 @@
+[{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2d0"
+  },
+  "department": "Architecture & Planning",
+  "cn": "AP",
+  "branches": [
+    {
+      "program": "Bachelor of Architecture",
+      "course": "B.Arch.",
+      "shortForm": "BArch",
+      "session": [
+        "2022-27"
+      ],
+      "duration": 5
+    },
+    {
+      "program": "Bachelor of Planning",
+      "course": "B.Plan.",
+      "shortForm": "BPlan",
+      "session": [
+        "2022-26"
+      ],
+      "duration": 4
+    },
+    {
+      "program": "Urban Planning",
+      "course": "M.Plan.",
+      "shortForm": "UPlan",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Real Estate Development",
+      "course": "M.Plan.",
+      "shortForm": "RED",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Arch.",
+      "type": "UG",
+      "duration": 5
+    },
+    {
+      "name": "B.Plan.",
+      "type": "UG",
+      "duration": 4
+    },
+    {
+      "name": "M.Plan.",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2d1"
+  },
+  "department": "Biological Science and Engineering",
+  "cn": "BSE",
+  "branches": [
+    {
+      "program": "Bio-Technology",
+      "course": "M.Tech",
+      "shortForm": "BT",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2d2"
+  },
+  "department": "Centre for Artificial Intelligence",
+  "cn": "AI",
+  "branches": [
+    {
+      "program": "Artificial Intelligence",
+      "course": "M.Tech",
+      "shortForm": "CSE_AI",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2d3"
+  },
+  "department": "Centre of Excellence in Product Design & Smart Manufacturing",
+  "cn": "CEPDSM",
+  "branches": [
+    {
+      "program": "Smart Manufacturing",
+      "course": "M.Tech",
+      "shortForm": "CEPDSM",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2d4"
+  },
+  "department": "Chemical Engineering",
+  "cn": "CHEM",
+  "branches": [
+    {
+      "program": "Bachelor of Technology",
+      "course": "B.Tech",
+      "shortForm": "CHEM",
+      "session": [
+        "2022-26",
+        "2023-27",
+        "2024-28"
+      ],
+      "duration": 4
+    },
+    {
+      "program": "Chemical Engineering",
+      "course": "M.Tech",
+      "shortForm": "CE",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Environmental Engineering",
+      "course": "M.Tech",
+      "shortForm": "EE",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Tech",
+      "type": "UG",
+      "duration": 4
+    },
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2d5"
+  },
+  "department": "Civil Engineering",
+  "cn": "CVL",
+  "branches": [
+    {
+      "program": "Civil Engineering",
+      "course": "B.Tech",
+      "shortForm": "CVL",
+      "session": [
+        "2022-26",
+        "2023-27",
+        "2024-28"
+      ],
+      "duration": 4
+    },
+    {
+      "program": "Geoinformatics & its Applications",
+      "course": "M.Tech",
+      "shortForm": "GIA",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Geotechnical Engineering",
+      "course": "M.Tech",
+      "shortForm": "GTE",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Water Resource Engineering & Management",
+      "course": "M.Tech",
+      "shortForm": "WREM",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Structural Engineering",
+      "course": "M.Tech",
+      "shortForm": "SE",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Transportation Engineering",
+      "course": "M.Tech",
+      "shortForm": "TE",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Infrastructure Engineering And Construction Management",
+      "course": "M.Tech",
+      "shortForm": "IECM",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Tech",
+      "type": "UG",
+      "duration": 4
+    },
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2d6"
+  },
+  "department": "Computer Science & Engineering",
+  "cn": "CSE",
+  "branches": [
+    {
+      "program": "Computer Science & Engineering",
+      "course": "B.Tech",
+      "shortForm": "CSE",
+      "session": [
+        "2022-26",
+        "2023-27",
+        "2024-28"
+      ],
+      "duration": 4
+    },
+    {
+      "program": "Advanced Computing",
+      "course": "M.Tech",
+      "shortForm": "CSE_AC",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Computer Networks",
+      "course": "M.Tech",
+      "shortForm": "CSE_CN",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Information Security",
+      "course": "M.Tech",
+      "shortForm": "CSE_IS",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Tech",
+      "type": "UG",
+      "duration": 4
+    },
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2d7"
+  },
+  "department": "Electrical Engineering",
+  "cn": "EE",
+  "branches": [
+    {
+      "program": "Electrical Engineering",
+      "course": "B.Tech",
+      "shortForm": "EE",
+      "session": [
+        "2022-26",
+        "2023-27",
+        "2024-28"
+      ],
+      "duration": 4
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Tech",
+      "type": "UG",
+      "duration": 4
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2d8"
+  },
+  "department": "Electronics & Communication Engineering",
+  "cn": "ECE",
+  "branches": [
+    {
+      "program": "Electronics & Communication Engineering",
+      "course": "B.Tech",
+      "shortForm": "ECE",
+      "session": [
+        "2022-26",
+        "2023-27",
+        "2024-28"
+      ],
+      "duration": 4
+    },
+    {
+      "program": "Communication Systems",
+      "course": "M.Tech",
+      "shortForm": "ECE_CS",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "VLSI design & Embedded System",
+      "course": "M.Tech",
+      "shortForm": "ECE_VED",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Tech",
+      "type": "UG",
+      "duration": 4
+    },
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2d9"
+  },
+  "department": "Energy Centre",
+  "cn": "EC",
+  "branches": [
+    {
+      "program": "Renewable Energy",
+      "course": "M.Tech",
+      "shortForm": "RE",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2da"
+  },
+  "department": "Energy and Electrical Vehicle Engineering",
+  "cn": "EEVE",
+  "branches": [
+    {
+      "program": "Energy and Electrical Vehicle Engineering",
+      "course": "B.Tech",
+      "shortForm": "EEVE",
+      "session": [
+        "2022-26",
+        "2023-27",
+        "2024-28"
+      ],
+      "duration": 4
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Tech",
+      "type": "UG",
+      "duration": 4
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2db"
+  },
+  "department": "Energy Economics and Management",
+  "cn": "EEM",
+  "branches": [
+    {
+      "program": "M.Sc in Energy",
+      "course": "M.Sc.",
+      "shortForm": "MSC_ENG",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "M.Sc.",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2dc"
+  },
+  "department": "Management Studies",
+  "cn": "MGMT",
+  "branches": [
+    {
+      "program": "Master of Business Administration",
+      "course": "MBA",
+      "shortForm": "MBA",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "MBA",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2dd"
+  },
+  "department": "Materials & Metallurgical Engineering",
+  "cn": "MME",
+  "branches": [
+    {
+      "program": "Materials & Metallurgical Engineering",
+      "course": "B.Tech",
+      "shortForm": "MME",
+      "session": [
+        "2022-26",
+        "2023-27",
+        "2024-28"
+      ],
+      "duration": 4
+    },
+    {
+      "program": "Material Science & Technology",
+      "course": "M.Tech",
+      "shortForm": "MST",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Tech",
+      "type": "UG",
+      "duration": 4
+    },
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2de"
+  },
+  "department": "Mathematics and Data Science",
+  "cn": "MDS",
+  "branches": [
+    {
+      "program": "Mathematics and Data Science",
+      "course": "B.Tech-M.Tech",
+      "shortForm": "MDS",
+      "session": [],
+      "duration": 5
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Tech-M.Tech",
+      "type": "DD",
+      "duration": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2df"
+  },
+  "department": "Mathematics, Bioinformatics & Computer Applications",
+  "cn": "MBC",
+  "branches": [
+    {
+      "program": "Bioinformatics",
+      "course": "M.Tech",
+      "shortForm": "BI",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Agile Software Engineering",
+      "course": "M.Tech",
+      "shortForm": "ASE",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Master of Computer Applications",
+      "course": "MCA",
+      "shortForm": "MCA",
+      "session": [],
+      "duration": 3
+    }
+  ],
+  "courses": [
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    },
+    {
+      "name": "MCA",
+      "type": "PG",
+      "duration": 3
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2e0"
+  },
+  "department": "Mechanical Engineering",
+  "cn": "ME",
+  "branches": [
+    {
+      "program": "Mechanical Engineering",
+      "course": "B.Tech",
+      "shortForm": "ME",
+      "session": [
+        "2022-26",
+        "2023-27",
+        "2024-28"
+      ],
+      "duration": 4
+    },
+    {
+      "program": "Automation and Robotics",
+      "course": "M.Tech",
+      "shortForm": "AR",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Machine Design",
+      "course": "M.Tech",
+      "shortForm": "MD",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Industrial Engineering and Management",
+      "course": "M.Tech",
+      "shortForm": "IEM",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Thermal Engineering",
+      "course": "M.Tech",
+      "shortForm": "TH",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Tech",
+      "type": "UG",
+      "duration": 4
+    },
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2e1"
+  },
+  "department": "Physics",
+  "cn": "PHY",
+  "branches": [
+    {
+      "program": "Nano Technology",
+      "course": "M.Tech",
+      "shortForm": "NT",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "M.Sc in Physics",
+      "course": "M.Sc.",
+      "shortForm": "MSP",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    },
+    {
+      "name": "M.Sc.",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2e2"
+  },
+  "department": "Chemistry",
+  "cn": "CHEM",
+  "branches": [
+    {
+      "program": "M.Sc in Chemistry",
+      "course": "M.Sc.",
+      "shortForm": "CHEM_MSC",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "M.Sc.",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f53873c441dc85ba4ed2e3"
+  },
+  "department": "Engineering and Computational Mechanics",
+  "cn": "ECM",
+  "branches": [
+    {
+      "program": "Engineering and Computational Mechanics",
+      "course": "B.Tech-M.Tech",
+      "shortForm": "DD-ECM",
+      "session": [],
+      "duration": 5
+    }
+  ],
+  "courses": [
+    {
+      "name": "B.Tech-M.Tech",
+      "type": "DD",
+      "duration": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f7708efbccc1111e0af35e"
+  },
+  "department": "Electrical Engineering Electronics & Communication Engineering",
+  "cn": "EEECE",
+  "branches": [
+    {
+      "program": "Power Electronics & Drives",
+      "course": "M.Tech",
+      "shortForm": "PED",
+      "session": [],
+      "duration": 2
+    },
+    {
+      "program": "Integrated Power System",
+      "course": "M.Tech",
+      "shortForm": "IPS",
+      "session": [],
+      "duration": 2
+    }
+  ],
+  "courses": [
+    {
+      "name": "M.Tech",
+      "type": "PG",
+      "duration": 2
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67f7d5418f8b222e4e24d497"
+  },
+  "department": "Test",
+  "cn": "tst",
+  "branches": [
+    {
+      "course": "TestCourse",
+      "program": "B.Tech",
+      "shortForm": "TstC",
+      "duration": 4,
+      "session": []
+    }
+  ],
+  "courses": [
+    {
+      "name": "TestCourse",
+      "type": "PG",
+      "duration": 4
+    },
+    {
+      "name": "B.Des.",
+      "type": "UG",
+      "duration": 4
+    }
+  ]
+}]

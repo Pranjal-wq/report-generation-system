@@ -1,0 +1,1493 @@
+{
+	"info": {
+		"_postman_id": "a4d13cba-0d71-43d8-a96f-cfb3ebc0486e",
+		"name": "ReportGeneration",
+		"description": "### Welcome to the API Documentation of the Attendance Report Generation System\n\n- Note : The Report Generation System is basically Read Only based . So there will be no put,delete request's . But we will be using the post request so that the messages could be transported in safe manner as the protcol of https will be followed in the production evironmet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34048243",
+		"_collection_link": "https://www.postman.com/compliant-portal/workspace/reportgeneration-api/collection/34048243-a4d13cba-0d71-43d8-a96f-cfb3ebc0486e?action=share&source=collection_link&creator=34048243"
+	},
+	"item": [
+		{
+			"name": "StudentDetails",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scholarNumber\":\"2211201179\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/student/details",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"student",
+						"details"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "StudentDetails",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"scholarNumber\":\"2211201152\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/student/details",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"student",
+								"details"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "156"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"9c-WRGxDnncCISD6/ROp9Ntk6dJWtA\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 17 Feb 2025 10:46:58 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"678d3d92d5665f6a3eb3f957\",\n        \"scholarNumber\": \"2211201152\",\n        \"StudentName\": \"VELPUCHERLA YOGANANDA REDDY\",\n        \"branch\": \"CSE\",\n        \"section\": \"1\",\n        \"batch\": \"2022-26\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "MonthlyReport",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response content type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>Total Sessions</th>\r",
+							"        <th>Present Count</th>\r",
+							"        <th>Subject Name</th>\r",
+							"        <th>Subject ID</th>\r",
+							"        <th>Branch</th>\r",
+							"        <th>Semester</th>\r",
+							"        <th>Section</th>\r",
+							"        <th>Scholar No</th>\r",
+							"        <th>Month</th>\r",
+							"        <th>Attendance Percentage</th>\r",
+							"        <th>Subject Code</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response}}\r",
+							"        <tr id=row_{{@key}}>\r",
+							"            <td>{{totalSessions}}</td>\r",
+							"            <td>{{presentCount}}</td>\r",
+							"            <td>{{subjectName}}</td>\r",
+							"            <td>{{subjectId}}</td>\r",
+							"            <td>{{branch}}</td>\r",
+							"            <td>{{semester}}</td>\r",
+							"            <td>{{section}}</td>\r",
+							"            <td>{{scholarNo}}</td>\r",
+							"            <td>{{month}}</td>\r",
+							"            <td>{{attendancePercentage}}</td>\r",
+							"            <td>{{subjectCode}}</td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    return {response: pm.response.json()};\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scholarNumber\":\"2211201137\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/student/attendance/monthly",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"student",
+						"attendance",
+						"monthly"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Monthly",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"scholarNumber\":\"2211201109\",\r\n    \"branch\":\"CSE\",\r\n    \"semester\":\"VI\",\r\n    \"section\":\"01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/student/attendance/monthly",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"student",
+								"attendance",
+								"monthly"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1534"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"5fe-mp+BkoZ+/hWPWrp/HefWY97wR1c\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 17 Feb 2025 06:25:30 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"totalSessions\": 9,\n        \"presentCount\": 9,\n        \"subjectName\": \"Advanced Data Structures\",\n        \"subjectId\": \"678dfa8ad5665f6a3eb3fa67\",\n        \"branch\": \"CSE\",\n        \"semester\": \"VI\",\n        \"section\": \"01\",\n        \"scholarNo\": \"2211201109\",\n        \"month\": \"2025-01\",\n        \"attendancePercentage\": 100,\n        \"subjectCode\": \"CSE357\"\n    },\n    {\n        \"totalSessions\": 9,\n        \"presentCount\": 9,\n        \"subjectName\": \"Network & System Securities (T)\",\n        \"subjectId\": \"678ce483cd76735183ab8349\",\n        \"branch\": \"CSE\",\n        \"semester\": \"VI\",\n        \"section\": \"01\",\n        \"scholarNo\": \"2211201109\",\n        \"month\": \"2025-01\",\n        \"attendancePercentage\": 100,\n        \"subjectCode\": \"CSE323\"\n    },\n    {\n        \"totalSessions\": 5,\n        \"presentCount\": 3,\n        \"subjectName\": \"Network & System Securities (T)\",\n        \"subjectId\": \"678ce483cd76735183ab8349\",\n        \"branch\": \"CSE\",\n        \"semester\": \"VI\",\n        \"section\": \"01\",\n        \"scholarNo\": \"2211201109\",\n        \"month\": \"2025-02\",\n        \"attendancePercentage\": 60,\n        \"subjectCode\": \"CSE323\"\n    },\n    {\n        \"totalSessions\": 2,\n        \"presentCount\": 2,\n        \"subjectName\": \"Advanced Data Structures\",\n        \"subjectId\": \"678dfa8ad5665f6a3eb3fa67\",\n        \"branch\": \"CSE\",\n        \"semester\": \"VI\",\n        \"section\": \"01\",\n        \"scholarNo\": \"2211201109\",\n        \"month\": \"2025-02\",\n        \"attendancePercentage\": 100,\n        \"subjectCode\": \"CSE357\"\n    },\n    {\n        \"totalSessions\": 3,\n        \"presentCount\": 3,\n        \"subjectName\": \"Machine Learning\",\n        \"subjectId\": \"678ce483cd76735183ab8347\",\n        \"branch\": \"CSE\",\n        \"semester\": \"VI\",\n        \"section\": \"01\",\n        \"scholarNo\": \"2211201109\",\n        \"month\": \"2025-01\",\n        \"attendancePercentage\": 100,\n        \"subjectCode\": \"CSE321\"\n    },\n    {\n        \"totalSessions\": 4,\n        \"presentCount\": 4,\n        \"subjectName\": \"Machine Learning\",\n        \"subjectId\": \"678ce483cd76735183ab8347\",\n        \"branch\": \"CSE\",\n        \"semester\": \"VI\",\n        \"section\": \"01\",\n        \"scholarNo\": \"2211201109\",\n        \"month\": \"2025-02\",\n        \"attendancePercentage\": 100,\n        \"subjectCode\": \"CSE321\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "FacultyDetails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/faculty/details?employeeCode=110262198424",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"faculty",
+						"details"
+					],
+					"query": [
+						{
+							"key": "employeeCode",
+							"value": "110262198424"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "FacultyDetails",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/faculty/details?employeeCode=0640",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"faculty",
+								"details"
+							],
+							"query": [
+								{
+									"key": "employeeCode",
+									"value": "0640"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "326"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"146-2P3ZSrJU95I4rTLxQ3NBPDE17nc\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 17 Feb 2025 10:43:12 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"ok\",\n    \"message\": \"Success\",\n    \"data\": {\n        \"_id\": \"678ce4d0cd76735183ab8350\",\n        \"name\": \"Meenu Chawla\",\n        \"password\": \"$2b$12$/uO0dJ87WO5RtqhRI1otDej46.tm5R64mrb.HLGpSVlgmyufIRXZi\",\n        \"about\": \"Available\",\n        \"employeeCode\": \"0640\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"email\": \"meenuchawlamanit@gmail.com\",\n        \"phone\": \"7554051302\",\n        \"abbreviation\": \"MC\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "FacultySubjectList",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/faculty/Subjects?employeeCode=110262198424",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"faculty",
+						"Subjects"
+					],
+					"query": [
+						{
+							"key": "employeeCode",
+							"value": "110262198424"
+						}
+					]
+				},
+				"description": "_**Gives the Subjects taught by a particular faculty**_"
+			},
+			"response": [
+				{
+					"name": "FacultySubjectList",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/faculty/Subjects?employeeCode=0640",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"faculty",
+								"Subjects"
+							],
+							"query": [
+								{
+									"key": "employeeCode",
+									"value": "0640"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "314"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"13a-HZmSmOxeyUmsAKU7rN3Bn4AVkCo\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 17 Feb 2025 10:31:37 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"ok\",\n    \"message\": \"Success\",\n    \"data\": [\n        {\n            \"subject\": {\n                \"_id\": \"678dfa8ad5665f6a3eb3fa67\",\n                \"subjectCode\": \"CSE357\",\n                \"subjectName\": \"Advanced Data Structures\",\n                \"department\": \"CSE\",\n                \"isElective\": false\n            },\n            \"branch\": \"CSE\",\n            \"semester\": \"VI\",\n            \"section\": \"1\",\n            \"location\": \"LRC A Block Ground Floor\",\n            \"course\": \"B-Tech\",\n            \"session\": \"2022-26\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "FacultyAttendanceClasswise",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ownerId\":\"678ce4d0cd76735183ab8350\",\r\n    \"subjectId\":\"678dfa8ad5665f6a3eb3fa67\",\r\n    \"course\":\"B-Tech\",\r\n    \"branch\":\"CSE\",\r\n    \"semester\":\"VI\",\r\n    \"section\":\"1\",\r\n    \"session\":\"2022-26\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/faculty/attendance/classwise",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"faculty",
+						"attendance",
+						"classwise"
+					]
+				},
+				"description": "### _**This is the api responsible to handle the data of attendance of a particular class in a particular subject taught by the faculty .**_"
+			},
+			"response": [
+				{
+					"name": "New Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ownerId\":\"678ce4d0cd76735183ab8350\",\r\n    \"subjectId\":\"678dfa8ad5665f6a3eb3fa67\",\r\n    \"course\":\"B-Tech\",\r\n    \"branch\":\"CSE\",\r\n    \"semester\":\"VI\",\r\n    \"section\":\"1\",\r\n    \"session\":\"2022-26\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/faculty/attendance/classwise",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"faculty",
+								"attendance",
+								"classwise"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1312"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"520-W0zDZ3/4V04Vcu44gMpb01Wikrs\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 17 Feb 2025 10:28:18 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"ok\",\n    \"message\": \"Success\",\n    \"data\": {\n        \"totalClass\": 11,\n        \"attendace\": {\n            \"2211201101\": 9,\n            \"2211201102\": 7,\n            \"2211201103\": 10,\n            \"2211201104\": 10,\n            \"2211201105\": 9,\n            \"2211201106\": 10,\n            \"2211201107\": 10,\n            \"2211201108\": 8,\n            \"2211201109\": 11,\n            \"2211201110\": 10,\n            \"2211201111\": 10,\n            \"2211201112\": 11,\n            \"2211201113\": 8,\n            \"2211201114\": 11,\n            \"2211201115\": 10,\n            \"2211201116\": 10,\n            \"2211201117\": 11,\n            \"2211201118\": 11,\n            \"2211201119\": 10,\n            \"2211201120\": 10,\n            \"2211201121\": 10,\n            \"2211201122\": 11,\n            \"2211201123\": 8,\n            \"2211201124\": 11,\n            \"2211201125\": 10,\n            \"2211201126\": 11,\n            \"2211201127\": 5,\n            \"2211201128\": 4,\n            \"2211201129\": 9,\n            \"2211201130\": 11,\n            \"2211201131\": 11,\n            \"2211201132\": 11,\n            \"2211201133\": 2,\n            \"2211201134\": 11,\n            \"2211201135\": 11,\n            \"2211201137\": 7,\n            \"2211201138\": 11,\n            \"2211201139\": 10,\n            \"2211201140\": 10,\n            \"2211201141\": 10,\n            \"2211201142\": 9,\n            \"2211201143\": 11,\n            \"2211201144\": 11,\n            \"2211201145\": 8,\n            \"2211201146\": 7,\n            \"2211201147\": 10,\n            \"2211201148\": 11,\n            \"2211201149\": 11,\n            \"2211201150\": 10,\n            \"2211201151\": 11,\n            \"2211201152\": 9,\n            \"2211201153\": 7,\n            \"2211201154\": 6,\n            \"2211201155\": 9,\n            \"2211201156\": 10,\n            \"2211201157\": 9,\n            \"2211201158\": 10,\n            \"2211201159\": 10,\n            \"2211201160\": 11,\n            \"2211201161\": 9,\n            \"2211201162\": 10,\n            \"2211201163\": 11,\n            \"2211201164\": 11,\n            \"2211201165\": 11,\n            \"2211201166\": 10,\n            \"2211201167\": 11,\n            \"2211201168\": 11,\n            \"2211201169\": 11,\n            \"2211201170\": 8,\n            \"2211201171\": 11,\n            \"2211201172\": 9,\n            \"2211201173\": 11,\n            \"2211201174\": 10,\n            \"2211201175\": 8,\n            \"2211201176\": 10,\n            \"2211201177\": 6,\n            \"2211201178\": 2,\n            \"2211201179\": 9,\n            \"2211201180\": 11\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "StudetOverallReport",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>Subject Name</th>\r",
+							"        <th>Subject Code</th>\r",
+							"        <th>Employee</th>\r",
+							"        <th>Total</th>\r",
+							"        <th>Present</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response.summary}}\r",
+							"        <tr>\r",
+							"            <td>{{subName}}</td>\r",
+							"            <td>{{subCode}}</td>\r",
+							"            <td>{{employee}}</td>\r",
+							"            <td>{{total}}</td>\r",
+							"            <td>{{present}}</td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    return { response: pm.response.json() }\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{vault:json-web-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scholarNumber\":\"2211201152\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://10.3.1.6:3000/api/attendance/attendanceByScholarId",
+					"protocol": "http",
+					"host": [
+						"10",
+						"3",
+						"1",
+						"6"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"attendance",
+						"attendanceByScholarId"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "attendanceByScholarId",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{vault:json-web-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"scholarNumber\":\"2211201152\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://10.3.1.6:3000/api/attendance/attendanceByScholarId",
+							"protocol": "http",
+							"host": [
+								"10",
+								"3",
+								"1",
+								"6"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"attendance",
+								"attendanceByScholarId"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "734"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2de-DY+o8UR8wFjF3ysrnALEOnsaU2M\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 17 Feb 2025 10:53:17 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"studentName\": \"VELPUCHERLA YOGANANDA REDDY\",\n    \"scholarNumber\": \"2211201152\",\n    \"summary\": [\n        {\n            \"subName\": \"Network & System Securities (T)\",\n            \"subCode\": \"CSE323\",\n            \"employee\": \"Deepak Singh Tomar\",\n            \"total\": 15,\n            \"present\": 15\n        },\n        {\n            \"subName\": \"Advanced Data Structures\",\n            \"subCode\": \"CSE357\",\n            \"employee\": \"Meenu Chawla\",\n            \"total\": 11,\n            \"present\": 11\n        },\n        {\n            \"subName\": \"Machine Learning\",\n            \"subCode\": \"CSE321\",\n            \"employee\": \"R. K. Pateriya\",\n            \"total\": 7,\n            \"present\": 7\n        },\n        {\n            \"subName\": \"Machine Learning Lab\",\n            \"subCode\": \"CSE324\",\n            \"employee\": \"R. K. Pateriya\",\n            \"total\": 0,\n            \"present\": 0\n        },\n        {\n            \"subName\": \"Network & System Securities (T)\",\n            \"subCode\": \"CSE323\",\n            \"employee\": \"Pankaj Kumar\",\n            \"total\": 0,\n            \"present\": 0\n        },\n        {\n            \"subName\": \"Hadoop & CUDA Lab\",\n            \"subCode\": \"CSE326\",\n            \"employee\": \"Yadunath Pathak\",\n            \"total\": 0,\n            \"present\": 0\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "FaculityListDepartmentWise",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/faculty/list?department=CSE",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"faculty",
+						"list"
+					],
+					"query": [
+						{
+							"key": "department",
+							"value": "CSE"
+						}
+					]
+				},
+				"description": "### Gives the Faculty List Departmental Wise"
+			},
+			"response": [
+				{
+					"name": "FacultyListDepartmentWise",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/faculty/list?department=CSE",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"faculty",
+								"list"
+							],
+							"query": [
+								{
+									"key": "department",
+									"value": "CSE"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "4101"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1005-QSG0mYcNkRUDrv/HjMfisY11eAc\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 17 Feb 2025 12:32:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Meenu Chawla\",\n        \"employeeCode\": \"0640\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"MC\"\n    },\n    {\n        \"name\": \"Nilay Khare\",\n        \"employeeCode\": \"1145\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"NK\"\n    },\n    {\n        \"name\": \"R. K. Pateriya\",\n        \"employeeCode\": \"824\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"RKP\"\n    },\n    {\n        \"name\": \"Deepak Singh Tomar\",\n        \"employeeCode\": \"1067\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"DST\"\n    },\n    {\n        \"name\": \"Vasudev Dehalwar\",\n        \"employeeCode\": \"805\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"VD\"\n    },\n    {\n        \"name\": \"Manish Pandey\",\n        \"employeeCode\": \"110001412044\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"MP\"\n    },\n    {\n        \"name\": \"Mansi Gyanchandani\",\n        \"employeeCode\": \"110082107194\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"MG\"\n    },\n    {\n        \"name\": \"Sanyam Shukla\",\n        \"employeeCode\": \"110071438193\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"SS\"\n    },\n    {\n        \"name\": \"Jaytrilok Choudhary\",\n        \"employeeCode\": \"111001410822\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"JTC\"\n    },\n    {\n        \"name\": \"Saritha Khetawat\",\n        \"employeeCode\": \"110021412043\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"SK\"\n    },\n    {\n        \"name\": \"Akhtar Rasool\",\n        \"employeeCode\": \"110031438195\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"AR\"\n    },\n    {\n        \"name\": \"Dhirendra Pratap Singh\",\n        \"employeeCode\": \"110081410840\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"DPS\"\n    },\n    {\n        \"name\": \"Shweta Jain\",\n        \"employeeCode\": \"110011412004\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"SJ\"\n    },\n    {\n        \"name\": \"Mitul Kumar Ahirwal\",\n        \"employeeCode\": \"110056130526\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"MA\"\n    },\n    {\n        \"name\": \"Jyoti Bharti\",\n        \"employeeCode\": \"110001438191\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"JB\"\n    },\n    {\n        \"name\": \"Namita Tiwari\",\n        \"employeeCode\": \"110032107093\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"NT\"\n    },\n    {\n        \"name\": \"Bholanath Roy\",\n        \"employeeCode\": \"110072191476\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"BNR\"\n    },\n    {\n        \"name\": \"Vijay Bhaskar\",\n        \"employeeCode\": \"111102755151\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"VB\"\n    },\n    {\n        \"name\": \"Pragati Agarwal\",\n        \"employeeCode\": \"110173897486\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"PA\"\n    },\n    {\n        \"name\": \"Vaibhav Soni\",\n        \"employeeCode\": \"110114474888\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"VS\"\n    },\n    {\n        \"name\": \"Akash Sinha\",\n        \"employeeCode\": \"110178736963\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"AS\"\n    },\n    {\n        \"name\": \"Yadunath Pathak\",\n        \"employeeCode\": \"110138049596\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"YP\"\n    },\n    {\n        \"name\": \"Shweta Bhandari\",\n        \"employeeCode\": \"11017621676\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"SB\"\n    },\n    {\n        \"name\": \"Aashish Kumar Sahu\",\n        \"employeeCode\": \"110117156803\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"AKS\"\n    },\n    {\n        \"name\": \"Pankaj Kumar\",\n        \"employeeCode\": \"110202315844\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"PK\"\n    },\n    {\n        \"name\": \"Rajesh Wadhvani\",\n        \"employeeCode\": \"110031410848\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"RW\"\n    },\n    {\n        \"name\": \"Vikram Garg\",\n        \"employeeCode\": \"110178597949\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"VG\"\n    },\n    {\n        \"name\": \"Ramesh Kumar Thakur\",\n        \"employeeCode\": \"110262198424\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"RT\"\n    },\n    {\n        \"name\": \"Nikhlesh Pathik\",\n        \"employeeCode\": \"CF12030\",\n        \"role\": \"Contract Faculty\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"NP\"\n    },\n    {\n        \"name\": \"Lalit Kumar\",\n        \"employeeCode\": \"CF12031\",\n        \"role\": \"Contract Faculty\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"LK\"\n    },\n    {\n        \"name\": \"Khushboo Singh\",\n        \"employeeCode\": \"CF12032\",\n        \"role\": \"Contract Faculty\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"KS\"\n    },\n    {\n        \"name\": \"Babita Pathik\",\n        \"employeeCode\": \"CF12033\",\n        \"role\": \"Contract Faculty\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"BP\"\n    },\n    {\n        \"name\": \"Sreemoyee Biswas\",\n        \"employeeCode\": \"CF12034\",\n        \"role\": \"Contract Faculty\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"SBS\"\n    },\n    {\n        \"name\": \"Muktesh Gupta\",\n        \"employeeCode\": \"CF12035\",\n        \"role\": \"Contract Faculty\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"MUG\"\n    },\n    {\n        \"name\": \"Mohit Kushwaha\",\n        \"employeeCode\": \"CF12036\",\n        \"role\": \"Contract Faculty\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"MK\"\n    },\n    {\n        \"name\": \"Rakesh Kundan\",\n        \"employeeCode\": \"211112011\",\n        \"role\": \"STU\",\n        \"department\": \"CSE\"\n    },\n    {\n        \"name\": \"Manisha Singh\",\n        \"employeeCode\": \"2302\",\n        \"role\": \"Prof\",\n        \"department\": \"CSE\",\n        \"abbreviation\": \"MS\"\n    },\n    {\n        \"name\": \"test1\",\n        \"employeeCode\": \"test1\",\n        \"role\": \"STU\",\n        \"department\": \"CSE\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "GetDepartments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/director/getDepartments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"director",
+						"getDepartments"
+					]
+				},
+				"description": "### This is route through which departments data is transported to the director\n\n- Role Based : Director Role"
+			},
+			"response": [
+				{
+					"name": "DepartmentsResponse",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/director/getDepartments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"director",
+								"getDepartments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "317"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"13d-a+SRrmgOVYtvzpambafGrm/hv6I\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 17 Feb 2025 13:41:33 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"CEPDSM\",\n        \"count\": 5\n    },\n    {\n        \"_id\": \"CHEMISTRY\",\n        \"count\": 10\n    },\n    {\n        \"_id\": \"MGMT\",\n        \"count\": 8\n    },\n    {\n        \"_id\": \"PHY\",\n        \"count\": 17\n    },\n    {\n        \"_id\": \"CSE\",\n        \"count\": 38\n    },\n    {\n        \"_id\": \"ENERGY\",\n        \"count\": 8\n    },\n    {\n        \"_id\": \"ECE\",\n        \"count\": 27\n    },\n    {\n        \"_id\": \"EE\",\n        \"count\": 28\n    },\n    {\n        \"_id\": \"MME\",\n        \"count\": 9\n    },\n    {\n        \"_id\": \"HSS\",\n        \"count\": 5\n    },\n    {\n        \"_id\": \"110202195592\",\n        \"count\": 1\n    },\n    {\n        \"_id\": \"CHEM\",\n        \"count\": 13\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "FacultyAttendance",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"<canvas id=\"myChart\" height=\"75\"></canvas>\r",
+							"\r",
+							"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\"></script> \r",
+							"\r",
+							"<script>\r",
+							"    var ctx = document.getElementById(\"myChart\");\r",
+							"\r",
+							"    var myChart = new Chart(ctx, {\r",
+							"        type: \"bar\",\r",
+							"        data: {\r",
+							"            labels: [],\r",
+							"            datasets: [{\r",
+							"                data: [],\r",
+							"                \r",
+							"                // Change these colours to customize the chart\r",
+							"                backgroundColor: [\"#003f5c\", \"#58508d\", \"#bc5090\", \"#ff6361\", \"#ffa600\"],\r",
+							"            }]\r",
+							"        },\r",
+							"        options: {\r",
+							"            legend: { display: false },\r",
+							"            title: {\r",
+							"                display: true,\r",
+							"                text: 'Subject Wise Attendance'\r",
+							"            },\r",
+							"            scales: {\r",
+							"                xAxes: [{\r",
+							"                    display: true,\r",
+							"                    scaleLabel: {\r",
+							"                        display: true,\r",
+							"                        labelString: 'Subjects'\r",
+							"                    }\r",
+							"                }],\r",
+							"                yAxes: [{\r",
+							"                    display: true,\r",
+							"                    scaleLabel: {\r",
+							"                        display: true,\r",
+							"                        labelString: 'Attendance'\r",
+							"                    }\r",
+							"                }]\r",
+							"            }\r",
+							"        }\r",
+							"\r",
+							"    });\r",
+							"\r",
+							"    // Access the data passed to pm.visualizer.set() from the JavaScript\r",
+							"    // code of the Visualizer template\r",
+							"    pm.getData(function (err, value) {\r",
+							"        myChart.data.labels = value.response.data.map((subject) => subject.subjectName);\r",
+							"        myChart.data.datasets[0].data = value.response.data.map((subject) => subject.totalClasses - subject.scheduledClasses);\r",
+							"        myChart.update();\r",
+							"    });\r",
+							"\r",
+							"</script>`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    var res = pm.response.json();\r",
+							"    \r",
+							"    var visualizerData = {\r",
+							"        data: res.data\r",
+							"    };\r",
+							"\r",
+							"    return {response: visualizerData};\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"employeeCode\": \"110262198424\",\r\n  \r\n       \"endDate\":\"2025-03-13T00:00:00.000Z\"\r\n\r\n\r\n\r\n    \r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/faculty/facultyAttendance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"faculty",
+						"facultyAttendance"
+					]
+				},
+				"description": "### _**It will return the report of the faculty's attendance . Tell's how many classes were scheduledadhow many did he take in them between two dates**_\n\n> Role based : Director , HOD"
+			},
+			"response": [
+				{
+					"name": "FacultyAttendance",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeCode\":\"0640\",\r\n    \"startDate\":\"2025-01-01T00:00:00Z\",\r\n    \"endDate\":\"2025-01-31T00:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/faculty/facultyAttendance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"faculty",
+								"facultyAttendance"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "163"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"a3-keyBQ0PGoo6PHHJWr53UjPKSv6M\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 19 Feb 2025 03:52:41 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"scheduledClasses\": [\n        {\n            \"_id\": \"CSE357\",\n            \"subjectName\": \"Advanced Data Structures\",\n            \"scheduledClasses\": 14\n        }\n    ],\n    \"subjectWiseAttendance\": [\n        [\n            \"CSE357\",\n            {\n                \"total\": 9,\n                \"marked\": 11\n            }\n        ]\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "nameToEmpCode",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Ramesh Kumar Thakur\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/faculty/nameToEmpCode",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"faculty",
+						"nameToEmpCode"
+					]
+				},
+				"description": "### Takes the input of the user name and gives the employee code"
+			},
+			"response": [
+				{
+					"name": "nameToEmpCode",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Ramesh Kumar Thakur\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/faculty/nameToEmpCode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"faculty",
+								"nameToEmpCode"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "14"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e-YhaMljYupX0i6Vw4qvousGVSZA0\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Mar 2025 09:56:59 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "\"110262198424\""
+				}
+			]
+		},
+		{
+			"name": "TimeTable",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"employeeCode\":\"110262198424\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/faculty/timetable?empCode=110262198424",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"faculty",
+						"timetable"
+					],
+					"query": [
+						{
+							"key": "empCode",
+							"value": "110262198424"
+						}
+					]
+				},
+				"description": "### This api is for TimeTable of a particular faculty by usig their employeeCode"
+			},
+			"response": [
+				{
+					"name": "TimeTable",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"employeeCode\":\"0640\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/faculty/TimeTable",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"faculty",
+								"TimeTable"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "932"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"3a4-w4vgrwlDDyNOczDSos5jZf0Gx+Q\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 13 Mar 2025 11:00:14 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"1\": [\n        {\n            \"subject\": {\n                \"_id\": \"678dfa8ad5665f6a3eb3fa67\",\n                \"subjectCode\": \"CSE357\",\n                \"subjectName\": \"Advanced Data Structures\",\n                \"department\": \"CSE\",\n                \"isElective\": false\n            },\n            \"branch\": \"CSE\",\n            \"semester\": \"VI\",\n            \"timing\": \"12:00-01:00PM\",\n            \"section\": \"1\",\n            \"location\": \"LRC A Block Ground Floor\",\n            \"course\": \"B-Tech\",\n            \"session\": \"2022-26\"\n        }\n    ],\n    \"2\": [],\n    \"3\": [\n        {\n            \"subject\": {\n                \"_id\": \"678dfa8ad5665f6a3eb3fa67\",\n                \"subjectCode\": \"CSE357\",\n                \"subjectName\": \"Advanced Data Structures\",\n                \"department\": \"CSE\",\n                \"isElective\": false\n            },\n            \"branch\": \"CSE\",\n            \"semester\": \"VI\",\n            \"timing\": \"11:00-12:00PM\",\n            \"section\": \"1\",\n            \"location\": \"LRC A Block Ground Floor\",\n            \"course\": \"B-Tech\",\n            \"session\": \"2022-26\"\n        }\n    ],\n    \"4\": [],\n    \"5\": [\n        {\n            \"subject\": {\n                \"_id\": \"678dfa8ad5665f6a3eb3fa67\",\n                \"subjectCode\": \"CSE357\",\n                \"subjectName\": \"Advanced Data Structures\",\n                \"department\": \"CSE\",\n                \"isElective\": false\n            },\n            \"branch\": \"CSE\",\n            \"semester\": \"VI\",\n            \"timing\": \"12:00-01:00PM\",\n            \"section\": \"1\",\n            \"location\": \"LRC A Block Ground Floor\",\n            \"course\": \"B-Tech\",\n            \"session\": \"2022-26\"\n        }\n    ],\n    \"6\": [],\n    \"7\": []\n}"
+				}
+			]
+		},
+		{
+			"name": "GetClassReport",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>Name</th>\r",
+							"        <th>Total Present</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response.report}}\r",
+							"        <tr>\r",
+							"            <td>{{_id.name.[0].[0]}}</td>\r",
+							"            <td>{{totalPresent}}</td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    return {response: pm.response.json()}\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"employeeCode\": \"0640\",\r\n    \"subjectId\": \"678dfa8ad5665f6a3eb3fa67\",\r\n    \"branch\": \"CSE\",\r\n    \"section\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/faculty/classReport",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"faculty",
+						"classReport"
+					]
+				},
+				"description": "#### **This endpoint returns the data of the attendance of the students of a particular class in a particular subject**"
+			},
+			"response": [
+				{
+					"name": "New Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeCode\": \"0640\",\r\n    \"subjectId\": \"678dfa8ad5665f6a3eb3fa67\",\r\n    \"branch\": \"CSE\",\r\n    \"section\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/faculty/classReport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"faculty",
+								"classReport"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "3671"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e57-EOJqkPQ9+qVbAQ4YLsfS8isqrNg\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Mar 2025 10:21:49 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"totalClasses\": 11,\n    \"report\": [\n        {\n            \"totalPresent\": 8,\n            \"name\": \"EDUPUGANTI YASWANTH\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Aditya  Raj Singh   Bhadoria\"\n        },\n        {\n            \"totalPresent\": 9,\n            \"name\": \"Mayank  suryavanshi\"\n        },\n        {\n            \"totalPresent\": 7,\n            \"name\": \"Samala Pramod\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"VEMULA TEJA MANIDEEP\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"RITIK  CHAND\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"sakshi  rai\"\n        },\n        {\n            \"totalPresent\": 9,\n            \"name\": \"Ashlin  Jojy\"\n        },\n        {\n            \"totalPresent\": 8,\n            \"name\": \"ANIKET SANJAY BHUJBAL\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Sameeksha  Prusty\"\n        },\n        {\n            \"totalPresent\": 8,\n            \"name\": \"Utkarsh  Solanki\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Aaditya Pahariya\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"chaitanya shailesh kulkarni\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"RISHIKA  BUWADE\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"ARUN KUMAR\"\n        },\n        {\n            \"totalPresent\": 9,\n            \"name\": \"Mansi Upadhyay\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Parag  Sewani\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"KRATIK  MEHTA\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Rahul  Kumar\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Rahul Kumar\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Pawan Kumar Tiwari\"\n        },\n        {\n            \"totalPresent\": 7,\n            \"name\": \"PALAK AGRAWAL\"\n        },\n        {\n            \"totalPresent\": 8,\n            \"name\": \"Suraj  Dhakad\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Karan Ajaykumar Kute\"\n        },\n        {\n            \"totalPresent\": 7,\n            \"name\": \"Shayan Fahimi\"\n        },\n        {\n            \"totalPresent\": 9,\n            \"name\": \"PRANJAL JAIN\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"KUMMARI  SIDDHARTH\"\n        },\n        {\n            \"totalPresent\": 5,\n            \"name\": \"sanskrati  khujvar\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"ROHIT  RATAN NAGAR\"\n        },\n        {\n            \"totalPresent\": 8,\n            \"name\": \"Ankit  Choudhary\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Utkarsh Gupta\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"SHAIK  ABDUL HAFEEZ\"\n        },\n        {\n            \"totalPresent\": 9,\n            \"name\": \"SHREYANSH SINGH\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Nallipogu Poojitha\"\n        },\n        {\n            \"totalPresent\": 9,\n            \"name\": \"VELPUCHERLA YOGANANDA REDDY\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Keerthi   Bommareddy\"\n        },\n        {\n            \"totalPresent\": 9,\n            \"name\": \"Venkata Sai Sasikar     Bachali\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Arpit Verma\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Dhananjay Borban\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Aditya  Dubey\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"princy  patwa\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"CHERUKURI LALITH SRI SAI\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"SWASTIK  DUBEY\"\n        },\n        {\n            \"totalPresent\": 7,\n            \"name\": \"Chirag singh  paliya\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"HUSAIN  MATKAWALA\"\n        },\n        {\n            \"totalPresent\": 6,\n            \"name\": \"MALLAVOLU S N S R S G V VISWANADH\"\n        },\n        {\n            \"totalPresent\": 9,\n            \"name\": \"Ajay Sharma\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Govinda Rathore\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Satyam Gupta\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Prem  Kumar\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"SAMARTH AGRAWAL\"\n        },\n        {\n            \"totalPresent\": 9,\n            \"name\": \"Abhinav Chawda\"\n        },\n        {\n            \"totalPresent\": 6,\n            \"name\": \"K  Sujith  Kumar\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Naman  Agrawal\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"KALPIT NAGAR\"\n        },\n        {\n            \"totalPresent\": 8,\n            \"name\": \"GUPTA DEVESH PRADEEP KUMAR\"\n        },\n        {\n            \"totalPresent\": 4,\n            \"name\": \"GADI CHARAN SHYAM\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Khushi  Sayyed\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"SABA SAIYEDA\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Yagyesh  Goyal\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Tanmay  Jha\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"CHARLOTTE ANN SINGH\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Pranshu  Agrawal\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Adithya  Salel\"\n        },\n        {\n            \"totalPresent\": 2,\n            \"name\": \"SUBRATA HALDAR\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Keshav Anand Bhagat\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Tasila  Poorna  shree\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"cheenepalli sai pavan\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"ARSALAN  MOID\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Mohammad  Faiz Chouhan\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Prajjwal Chouhan\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"SUDHANSHU MAHLE\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"Pratik  Verma\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"SRAJAN BHAGAT\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Abhinav Kumar Yadav\"\n        },\n        {\n            \"totalPresent\": 2,\n            \"name\": \"Saurav  Kumar\"\n        },\n        {\n            \"totalPresent\": 10,\n            \"name\": \"SANJAY KOTHAPALLI\"\n        },\n        {\n            \"totalPresent\": 9,\n            \"name\": \"MAMUNURI  VISHWENDRA CHARY\"\n        },\n        {\n            \"totalPresent\": 11,\n            \"name\": \"Ajay Yadav\"\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}

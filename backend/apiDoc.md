@@ -1,0 +1,3 @@
+Reading file src\docs\api\ReportGeneration.postman_collection.json
+Generating markdown file ...
+Documentation was created correctly src\docs\api\ReportGeneration.md
